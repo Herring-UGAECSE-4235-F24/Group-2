@@ -1,0 +1,145 @@
+# This Python code will generate the ARMv8 assembly code
+assembly_code = """
+; Program Name: Keypad to ASCII Converter
+; Description: Implements a state machine to convert keypad inputs to ASCII or binary outputs.
+; Target Architecture: ARMv8
+
+.data
+    ASCII_OFFSET_NUM:  .byte 0x30  ; Offset for numbers '0'-'9'
+    ASCII_OFFSET_ALPHA: .byte 0x41 ; Offset for letters 'A'-'D'
+    ASCII_AT:           .byte 0x40 ; ASCII '@' for initial display
+    CLOCK_FREQ:         .word 1000 ; 1 kHz clock frequency
+
+.bss
+    .lcomm current_state, 1
+    .lcomm ascii_mode, 1
+    .lcomm last_key, 1
+    .lcomm output_value, 1
+    .lcomm timer_counter, 8
+
+.text
+    .global _start
+
+_start:
+    ; Initialize state
+    mov w0, #0
+    strb w0, [current_state]
+    strb w0, [ascii_mode]
+    ldr x1, =ASCII_AT
+    ldrb w0, [x1]
+    strb w0, [output_value]
+    mov x0, #0
+    str x0, [timer_counter]
+
+main_loop:
+    ; Simulate key press (this would be replaced with actual input handling)
+    mov w0, #0x05  ; Simulating key '5' press
+    bl process_key_press
+
+    ; Loop back to main loop
+    b main_loop
+
+process_key_press:
+    ; w0 contains the key value
+    cmp w0, #0x0A  ; Check if key is '*' (simulated as 0x0A)
+    beq reset_state
+    cmp w0, #0x0B  ; Check if key is '#' (simulated as 0x0B)
+    beq toggle_ascii_mode
+
+    ; Store the key value
+    strb w0, [last_key]
+
+    ; Convert and store output value
+    bl convert_to_output
+    
+    ; Reset timer
+    mov x0, #0
+    str x0, [timer_counter]
+
+    ret
+
+reset_state:
+    mov w0, #0
+    strb w0, [current_state]
+    strb w0, [ascii_mode]
+    ldr x1, =ASCII_AT
+    ldrb w0, [x1]
+    strb w0, [output_value]
+    ret
+
+toggle_ascii_mode:
+    ldrb w0, [ascii_mode]
+    eor w0, w0, #1  ; Toggle between 0 and 1
+    strb w0, [ascii_mode]
+    ret
+
+convert_to_output:
+    ldrb w1, [ascii_mode]
+    cmp w1, #0
+    beq .convert_binary
+    
+    ; ASCII mode
+    cmp w0, #9
+    ble .convert_number
+    
+    ; Convert A-D
+    ldr x1, =ASCII_OFFSET_ALPHA
+    ldrb w2, [x1]
+    add w0, w0, w2
+    sub w0, w0, #10  ; Adjust for A starting at 10
+    b .store_output
+
+.convert_number:
+    ldr x1, =ASCII_OFFSET_NUM
+    ldrb w2, [x1]
+    add w0, w0, w2
+    b .store_output
+
+.convert_binary:
+    ; Binary mode (no conversion needed)
+
+.store_output:
+    strb w0, [output_value]
+    ret
+
+update_timer:
+    ; Increment timer (this would be called by clock interrupt in real implementation)
+    ldr x0, [timer_counter]
+    add x0, x0, #1
+    str x0, [timer_counter]
+
+    ; Check if 2 seconds have passed (2000 ms)
+    ldr x1, =CLOCK_FREQ
+    ldr w1, [x1]
+    mov x2, #2
+    mul x1, x1, x2  ; x1 = 2000
+    cmp x0, x1
+    blt .timer_end
+
+    ; If 2 seconds passed, reset to '@' for 0.5 seconds
+    ldr x1, =ASCII_AT
+    ldrb w2, [x1]
+    strb w2, [output_value]
+
+    ; Reset timer
+    mov x0, #0
+    str x0, [timer_counter]
+
+.timer_end:
+    ret
+
+; Note: The following functions would require hardware access and are left as placeholders
+read_keypad:
+    ; Read GPIO pins for keypad input
+    ret
+
+output_to_gpio:
+    ; Output to GPIO pins
+    ret
+
+generate_clock:
+    ; Generate 1 kHz clock signal
+    ret
+"""
+
+print(assembly_code)
