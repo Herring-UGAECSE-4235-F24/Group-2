@@ -7,10 +7,10 @@ DEBUGFLGS =
 endif
 LSTFLGS =
 
-all: 0_AddressMap
+all: Function6_14
 
 %.o : %.s
 	as -g $(LSTFLGS) $< -o $@
 
-0_AddressMap: 0_AddressMap.s debug.s
-	gcc -o 0_AddressMap 0_AddressMap.s
+Function6_14: Function6_14.s debug.s
+	gcc -o Function6_14 Function6_14.s
