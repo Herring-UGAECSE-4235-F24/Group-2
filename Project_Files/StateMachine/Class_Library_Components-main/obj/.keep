@@ -1,0 +1,2 @@
+This keep file allows an empty obj directory to be added to the git repository.
+The empty obj directory is needed for the complie scrpit to store object files for linking.
