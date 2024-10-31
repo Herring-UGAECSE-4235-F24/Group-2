@@ -1,2 +1,0 @@
-This keep file allows an empty bin directory to be added to the git repository.
-The empty bin directory is needed to store the compiled test files.

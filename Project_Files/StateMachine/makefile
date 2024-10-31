@@ -1,16 +1,33 @@
 # Compiler
-CC = gcc
+#CC = gcc
 
 # Source file
-SRC = test.c
+#SRC = LIBRARY_FIX.c
 
 # Executable name
-TARGET = test
+#TARGET = LIBRARY_FIX
 
-all: $(TARGET)
+#all: $(TARGET)
 
-$(TARGET): $(SRC)
-	$(CC) -o $@ $^ -lbcm2835 -lE4235
+#$(TARGET): $(SRC)
+#	$(CC) -o $@ $^ E4235_Write.s E4235_Delaynano.s -lbcm2835 -lE4235
+
+#clean:
+#	rm -f $(TARGET)
+
+NAME = LIBRARY_FIX
+FLAGS = -lE4235 -Wall -pedantic -lbcm2835
+ifdef DEBUG
+DEBUGFLGS = -g
+else
+DEBUGFLGS =
+endif
+
+cl: $(NAME).c
+	gcc -o $(NAME) $(NAME).c $(FLAGS)
+
+run: cl
+	./$(NAME)
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(NAME)
