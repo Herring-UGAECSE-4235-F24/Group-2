@@ -1,0 +1,28 @@
+@ You may work with your partner on this!
+@ This is a total of three programs.
+@
+@ Many functions like 1/n, n!, e, cosx, etc.. can be calculated using series expansions.
+@ Many series expansions use n!, 1/n! and x^n 
+@ For this assembly exercise, you will write a function for n! and for x^n.  These will be two separate functions.
+@
+@ 1) For n!
+@ Take input from the keyboard for an integer greater than or equal to 0 (small integers).  "Calculate n!.  Enter n:"
+@ Use f32 floating point to calculate n! and return answer to the monitor. "n! = ...." (substitute the n value)
+@ What is the largest input for which you can return an accurate result?  You can answer this during the in class checkpoint.
+@
+@
+@ 2) For x^n
+@ Take input from the keyboard for x (0 and positive reals are okay) and for n (0 and small integers only).  "Calculate x^n.  Enter x:"  followed by "Enter n:"
+@ Use f32 floating point to calculate the answer x^n and return answer to monitor.  "x^n = ...." (substitute the x and n values)
+@ We will check in class
+@ 
+@ 3) Now, lets use your two functions to calculate a e^x using series expansion
+@ Write a C program that calls your two assembly functions to calculte the e^x (0 and positive reals are okay) out to the first 5 terms of the Taylor series
+@ "Calculate e^x.  Enter x:"   and on completion, "e^x = ...."  (substitute the value entered for x)
+@ e^x = 1 + x+ x^2/2! + x^3/3! + x^4/4! + x^5/5!
+@
+@ The program should ask for the value of x (we will only allow 0 and positive small reals) from the keyboard input.
+@ Display the result to the terminal. 
+@ We will check in class.
+@
+@ These will be checked indiviually for function and accuracy in class.  Therefore, make sure each function can be run separately.
